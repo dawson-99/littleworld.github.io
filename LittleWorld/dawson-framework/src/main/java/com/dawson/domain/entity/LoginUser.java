@@ -9,6 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 
+/**
+ *  创建这个类的原因是：SpringSecurity的最后一层过后，会返回一个UserDetails的对象。
+ *  我们这里重新实现一下
+ */
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

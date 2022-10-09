@@ -1,2 +1,4 @@
+com/dawson/controller/UserController.class
 com/dawson/controller/CategoryController.class
 com/dawson/controller/LinkController.class
+com/dawson/controller/UploadController.class
