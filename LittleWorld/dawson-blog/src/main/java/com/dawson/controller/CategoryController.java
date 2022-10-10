@@ -1,6 +1,7 @@
 package com.dawson.controller;
 
 
+import com.dawson.annotation.SystemLog;
 import com.dawson.domain.ResponseResult;
 import com.dawson.service.CategoryService;
 import com.dawson.service.impl.CategoryServiceImpl;
@@ -18,6 +19,7 @@ public class CategoryController {
 
 
     @GetMapping("/getCategoryList")
+    @SystemLog(businessName = "获取分类")
     public ResponseResult getCategoryList(){
         return categoryService.getCategoryList();
     }

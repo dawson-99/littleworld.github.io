@@ -5,8 +5,11 @@ import com.dawson.domain.ResponseResult;
 import com.dawson.domain.entity.User;
 
 
-
 public interface UserService extends IService<User> {
 
     ResponseResult getUserInfo();
+
+    ResponseResult updateUserInfoUpdate(User user);
+
+    ResponseResult register(User user);
 }

@@ -1,6 +1,7 @@
 package com.dawson.controller;
 
 
+import com.dawson.annotation.SystemLog;
 import com.dawson.domain.ResponseResult;
 import com.dawson.domain.entity.Article;
 import com.dawson.service.ArticleService;
@@ -23,6 +24,7 @@ public class ArticleController {
 
     //此接口用于查询热门文章
     @GetMapping("hotArticleList")
+    @SystemLog(businessName = "查询热门文章")
     public ResponseResult hotArticleList(){
         ResponseResult result = articleService.hotArticleList();
         return result;
@@ -32,6 +34,7 @@ public class ArticleController {
      * 此接口用于查询文章列表。表现为点击一个分类，就出现该分类的文章
      */
     @GetMapping("/articleList")
+    @SystemLog(businessName = "查询文章列表")
     public ResponseResult ArticleList(Integer pageNum, Integer pageSize, Long categoryId){
         return articleService.getArticleList(pageNum, pageSize, categoryId);
     }
@@ -41,6 +44,7 @@ public class ArticleController {
      * pathVarible 和 param的区别就是：pathVarible是放在路径上面的，用/来分开。但是param是？来区分的
      */
     @GetMapping("/{id}")
+    @SystemLog(businessName = "用id获取文章")
     public ResponseResult getArticleById(@PathVariable("id") Long id){
           return articleService.getArticleById(id);
     }

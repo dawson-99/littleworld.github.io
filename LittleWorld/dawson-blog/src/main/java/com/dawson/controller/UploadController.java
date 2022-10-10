@@ -1,6 +1,7 @@
 package com.dawson.controller;
 
 
+import com.dawson.annotation.SystemLog;
 import com.dawson.domain.ResponseResult;
 import com.dawson.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ public class UploadController {
 
 
     @PostMapping("/upload")
+    @SystemLog(businessName = "上传头像")
     public ResponseResult upload(MultipartFile file){
         return uploadService.upload(file);
     }

@@ -1,5 +1,7 @@
+com/dawson/service/impl/UserServiceImpl.class
 com/dawson/mapper/UserMapper.class
 com/dawson/config/MbatisPlusConfig.class
+com/dawson/handler/mybatisplus/MyMetaObjectHandler.class
 com/dawson/domain/entity/Article.class
 com/dawson/domain/vo/ArticleListVo.class
 com/dawson/service/impl/LinkServiceImpl.class

@@ -7,6 +7,7 @@
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/utils/SecurityUtils.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/utils/PathUtils.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/service/ArticleService.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/aspect/LogAspect.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/domain/vo/ArticleVo.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/config/FastJsonRedisSerializer.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/mapper/ArticleMapper.java
@@ -26,6 +27,7 @@
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/service/impl/UserServiceImpl.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/domain/vo/LinkVo.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/constant/SystemConstants.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/annotation/SystemLog.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/domain/entity/Article.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/handler/security/AccessDeniedHandlerImpl.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/utils/JwtUtil.java

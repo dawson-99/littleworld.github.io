@@ -1,6 +1,9 @@
 package com.dawson;
 
 
+import com.dawson.domain.entity.User;
+import com.dawson.service.UserService;
+import com.dawson.service.impl.UserServiceImpl;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
@@ -60,6 +63,17 @@ public class OssTest {
         }
 
     }
+
+    @Test
+    public void test(){
+        UserService userService = new UserServiceImpl();
+        User user = new User();
+        user.setPassword("1233213");
+        user.setNickName("dddd");
+        user.setUserName("3213");
+        userService.save(user);
+    }
+
 
 
 }

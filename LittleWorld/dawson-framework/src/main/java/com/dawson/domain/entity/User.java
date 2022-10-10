@@ -1,26 +1,25 @@
 package com.dawson.domain.entity;
 
-import java.util.Date;
-
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.util.Date;
+
 /**
  * 用户表(User)表实体类
  *
  * @author makejava
- * @since 2022-10-06 12:28:48
+ * @since 2022-02-03 16:25:40
  */
 @SuppressWarnings("serial")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("sys_user")
-public class User  {
-
+public class User {
     //主键@TableId
     private Long id;
 
@@ -54,5 +53,8 @@ public class User  {
     private Integer delFlag;
 
 
+    //关联角色id数组，非user表字段
+    @TableField(exist = false)
+    private Long[] roleIds;
 
 }

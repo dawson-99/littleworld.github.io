@@ -1,6 +1,7 @@
 package com.dawson.controller;
 
 
+import com.dawson.annotation.SystemLog;
 import com.dawson.domain.ResponseResult;
 import com.dawson.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class LinkController {
     private LinkService linkService;
 
     @GetMapping("/getAllLink")
+    @SystemLog(businessName = "获取所有的友链")
     public ResponseResult getAllLink(){
           return linkService.getAllLink();
     }
