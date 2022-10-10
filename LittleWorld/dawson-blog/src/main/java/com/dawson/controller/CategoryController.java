@@ -19,7 +19,7 @@ public class CategoryController {
 
 
     @GetMapping("/getCategoryList")
-    @SystemLog(businessName = "获取分类")
+//    @SystemLog(businessName = "获取分类")
     public ResponseResult getCategoryList(){
         return categoryService.getCategoryList();
     }

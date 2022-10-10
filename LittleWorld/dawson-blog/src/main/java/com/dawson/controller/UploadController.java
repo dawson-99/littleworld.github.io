@@ -17,7 +17,7 @@ public class UploadController {
 
 
     @PostMapping("/upload")
-    @SystemLog(businessName = "上传头像")
+//    @SystemLog(businessName = "上传头像")
     public ResponseResult upload(MultipartFile file){
         return uploadService.upload(file);
     }

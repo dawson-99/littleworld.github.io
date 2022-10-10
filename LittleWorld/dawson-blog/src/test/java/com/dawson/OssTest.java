@@ -1,9 +1,13 @@
 package com.dawson;
 
 
+import com.dawson.domain.entity.Article;
 import com.dawson.domain.entity.User;
+import com.dawson.mapper.ArticleMapper;
+import com.dawson.service.ArticleService;
 import com.dawson.service.UserService;
 import com.dawson.service.impl.UserServiceImpl;
+import com.dawson.utils.RedisCache;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
@@ -13,12 +17,26 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 public class OssTest {
+
+    @Autowired
+    RedisCache redisCache;
+
+    @Autowired
+    ArticleService articleService;
+
+    @Autowired
+    ArticleMapper articleMapper;
 
     @Test
     public void upload(){
@@ -72,6 +90,23 @@ public class OssTest {
         user.setNickName("dddd");
         user.setUserName("3213");
         userService.save(user);
+    }
+
+    @Test
+    public void viewCount_To_Database(){
+
+        //从redis中获取
+        Map<String, Integer> viewMap = redisCache.getCacheMap("article:viewCount");
+
+        Article article = new Article(1L,123);
+        article.setId(1L);
+        article.setViewCount(123L);
+        List<Article> articles = new ArrayList<>();
+        articles.add(article);
+
+
+        //写到数据库里面
+        articleMapper.updateById(article);
     }
 
 

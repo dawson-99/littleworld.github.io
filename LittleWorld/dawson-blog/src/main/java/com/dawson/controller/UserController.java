@@ -16,19 +16,19 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/userInfo")
-    @SystemLog(businessName = "获取用户信息")
+//    @SystemLog(businessName = "获取用户信息")
     public ResponseResult getUserInfo(){
         return userService.getUserInfo();
     }
 
     @PostMapping("/updateUserInfoUpdate")
-    @SystemLog(businessName = "更新用户信息")
+//    @SystemLog(businessName = "更新用户信息")
     public ResponseResult updateUserInfoUpdate(@RequestBody User user){
          return userService.updateUserInfoUpdate(user);
     }
 
     @PostMapping("/register")
-    @SystemLog(businessName = "注册接口")
+//    @SystemLog(businessName = "注册接口")
     public  ResponseResult register(@RequestBody User user){
         return userService.register(user);
     }

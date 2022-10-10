@@ -76,7 +76,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getUserName, user.getUserName());
 
-        int count = count(queryWrapper);
+        long count = count(queryWrapper);
         if(count > 0){
             throw new SystemException(AppHttpCodeEnum.USERNAME_EXIST);
         }

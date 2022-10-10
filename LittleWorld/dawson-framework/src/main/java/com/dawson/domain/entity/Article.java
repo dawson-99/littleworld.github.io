@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor//全参构造
 @TableName("sg_article")
 public class Article{
-    
+
     private Long id;
     //标题
     private String title;
@@ -57,5 +57,10 @@ public class Article{
     private Date updateTime;
     //删除标志（0代表未删除，1代表已删除）
     private Integer delFlag;
+
+    public Article(Long id, long viewCount) {
+        this.id = id;
+        this.viewCount = viewCount;
+    }
 }
 

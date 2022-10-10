@@ -1,5 +1,12 @@
+com/dawson/DawsonBlogApplication.class
 com/dawson/controller/CategoryController.class
 com/dawson/controller/LinkController.class
+com/dawson/controller/LoginController.class
+com/dawson/job/ViewCountUpdate.class
+com/dawson/config/SecurityConfig.class
+com/dawson/controller/ArticleController.class
 com/dawson/runner/ArticleViewCountRunner.class
+com/dawson/controller/CommentController.class
 com/dawson/controller/UserController.class
+com/dawson/filter/JwtAuthenticatonFilter.class
 com/dawson/controller/UploadController.class

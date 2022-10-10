@@ -17,6 +17,9 @@ public class RedisCache
     @Autowired
     public RedisTemplate redisTemplate;
 
+
+    final String viewMap = "article:viewCount";
+
     /**
      * 缓存基本的对象，Integer、String、实体类等
      *
@@ -163,6 +166,14 @@ public class RedisCache
         if (dataMap != null) {
             redisTemplate.opsForHash().putAll(key, dataMap);
         }
+    }
+
+
+    /**
+     * 增加文章阅读量
+     */
+    public void incrementViewCount(String id){
+        redisTemplate.opsForHash().increment(viewMap, id, 1);
     }
 
     /**

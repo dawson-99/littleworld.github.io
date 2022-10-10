@@ -1,6 +1,7 @@
 package com.dawson.runner;
 
 import com.dawson.domain.entity.Article;
+import com.dawson.mapper.ArticleMapper;
 import com.dawson.service.ArticleService;
 import com.dawson.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,12 @@ public class ArticleViewCountRunner implements CommandLineRunner {
     @Autowired
     ArticleService articleService;
 
+    @Autowired
+    ArticleMapper articleMapper;
+
 
     @Override
+    //这个方法是重写的，就是spring启动后就会执行
     public void run(String... args) throws Exception {
 
         //先把所有文章查询出来
@@ -32,6 +37,6 @@ public class ArticleViewCountRunner implements CommandLineRunner {
        Map<String, Integer> viewCounts = articleList.stream()
                .collect(Collectors.toMap(article -> article.getId().toString(), article -> article.getViewCount().intValue()));
        //存进redis
-        redisCache.setCacheObject("article:viewCount", viewCounts);
+        redisCache.setCacheMap("article:viewCount", viewCounts);
     }
 }

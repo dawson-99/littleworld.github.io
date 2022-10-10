@@ -18,7 +18,7 @@ public class LinkController {
     private LinkService linkService;
 
     @GetMapping("/getAllLink")
-    @SystemLog(businessName = "获取所有的友链")
+//    @SystemLog(businessName = "获取所有的友链")
     public ResponseResult getAllLink(){
           return linkService.getAllLink();
     }

@@ -32,4 +32,9 @@ public class SystemConstants
     /** 正常状态 */
     public static final String NORMAL = "0";
     public static final String ADMAIN = "1";
+
+    //文章阅读次数的redis的Key
+    public static final String ARTICLE_UPDATE = "article:viewCount";
+    //将阅读量往数据库里面写的时间
+    public static final String UPDATE_VIEW_CORN = "* 0/59 * * * ?";
 }

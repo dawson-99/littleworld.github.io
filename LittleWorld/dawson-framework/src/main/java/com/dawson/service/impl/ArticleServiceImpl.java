@@ -17,13 +17,16 @@ import com.dawson.mapper.CategoryMapper;
 import com.dawson.service.ArticleService;
 import com.dawson.service.CategoryService;
 import com.dawson.utils.BeanCopyUtils;
+import com.dawson.utils.RedisCache;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -34,6 +37,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    RedisCache redisCache;
 
 
 
@@ -115,10 +121,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 //            article.setCategoryName(category.getName());
 //        }
         //stream方式。这玩意儿就写法高端点，还不是一个个枚举。
+        Map<String, Integer> articleViews = redisCache.getCacheMap(SystemConstants.ARTICLE_UPDATE);
+
                 List<Article> articles = page.getRecords();
                 articles.stream().map( f -> {
                     Category category = categoryService.getById(f.getCategoryId());
                     f.setCategoryName(category.getName());
+                    long viewCount = articleViews.get(f.getId().toString());
+                    f.setViewCount(viewCount);
                     return f;
                 }).collect(Collectors.toList());
 
@@ -136,6 +146,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 //        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
 //        queryWrapper.eq(Article::getId, id);
         Article article = getById(id);
+        //浏览量从redis中去拿，不从数据库
+        Map<String, Integer> articleViews = redisCache.getCacheMap(SystemConstants.ARTICLE_UPDATE);
+        long viewCount = articleViews.get(id.toString());
+        article.setViewCount(viewCount);
         ArticleVo articleVo = BeanCopyUtils.copyBean(article, ArticleVo.class);
 
         Category category = categoryService.getById(articleVo.getCategoryId());
@@ -144,4 +158,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         return ResponseResult.okResult(articleVo);
     }
+
+    public ResponseResult updateViewCount(Long id) {
+        //更新redis中对应 id的浏览量
+        redisCache.incrementViewCount(id.toString());
+        return ResponseResult.okResult();
+    }
+
+
+
 }

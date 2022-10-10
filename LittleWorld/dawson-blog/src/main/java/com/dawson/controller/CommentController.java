@@ -18,20 +18,20 @@ public class CommentController {
 
 
     @GetMapping("/commentList")
-    @SystemLog(businessName = "获取评论列表")
+//    @SystemLog(businessName = "获取评论列表")
     public ResponseResult commentList(Long articleId, Integer pageNum, Integer pageSize){
         return commentService.commentList("0",articleId, pageNum, pageSize);
     }
 
     @GetMapping("/linkList")
-    @SystemLog(businessName = "获取友链列表")
+//    @SystemLog(businessName = "获取友链列表")
     public ResponseResult LinkcommentList(Integer pageNum, Integer pageSize){
         return commentService.commentList("1",null, pageNum, pageSize);
     }
 
 
     @PostMapping
-    @SystemLog(businessName = "添加评论")
+//    @SystemLog(businessName = "添加评论")
     public ResponseResult addComment(@RequestBody Comment comment){
         return commentService.addComment(comment);
     }
