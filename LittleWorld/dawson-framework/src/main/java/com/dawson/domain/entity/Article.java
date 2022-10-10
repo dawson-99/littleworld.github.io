@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Data//这个是设置getter、setter和toString
 @NoArgsConstructor//无参构造
 @AllArgsConstructor//全参构造
-@TableName("sg_article")
+@TableName("ds_article")
 public class Article{
 
     private Long id;

@@ -1,6 +1,7 @@
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/config/WebConfig.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/service/impl/UserDetailsServiceImpl.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/service/CommentService.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/mapper/TagMapper.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/utils/WebUtils.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/utils/RedisCache.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/service/LinkService.java
@@ -8,6 +9,7 @@
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/utils/PathUtils.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/service/ArticleService.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/aspect/LogAspect.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/domain/entity/Tag.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/domain/vo/ArticleVo.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/config/FastJsonRedisSerializer.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/mapper/ArticleMapper.java
@@ -20,6 +22,8 @@
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/service/UploadService.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/mapper/CategoryMapper.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/domain/vo/UserInfoVo.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/service/TagService.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/service/impl/TagServiceImpl.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/utils/BeanCopyUtils.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/service/impl/LinkServiceImpl.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-framework/src/main/java/com/dawson/domain/entity/LoginUser.java

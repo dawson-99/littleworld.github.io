@@ -1,3 +1,4 @@
+com/dawson/service/impl/TagServiceImpl.class
 com/dawson/mapper/UserMapper.class
 com/dawson/handler/mybatisplus/MyMetaObjectHandler.class
 com/dawson/service/UserService.class
@@ -20,6 +21,7 @@ com/dawson/utils/SecurityUtils.class
 com/dawson/mapper/CommentMapper.class
 com/dawson/utils/JwtUtil.class
 com/dawson/handler/security/AccessDeniedHandlerImpl.class
+com/dawson/domain/entity/Tag.class
 com/dawson/domain/vo/LinkVo.class
 com/dawson/mapper/LinkMapper.class
 com/dawson/service/impl/UserDetailsServiceImpl.class
@@ -36,6 +38,7 @@ com/dawson/service/impl/CommentServiceImpl.class
 com/dawson/config/MbatisPlusConfig.class
 com/dawson/domain/vo/ArticleListVo.class
 com/dawson/config/WebConfig.class
+com/dawson/service/TagService.class
 com/dawson/domain/vo/PageVo.class
 com/dawson/service/ArticleService.class
 com/dawson/aspect/LogAspect.class
@@ -43,6 +46,7 @@ com/dawson/service/CategoryService.class
 com/dawson/service/LoginService.class
 com/dawson/domain/vo/BlogUserLoginVo.class
 com/dawson/exception/SystemException.class
+com/dawson/mapper/TagMapper.class
 com/dawson/config/FastJsonRedisSerializer.class
 com/dawson/service/impl/UploadServiceImpl.class
 com/dawson/domain/vo/CategoryListVo.class
