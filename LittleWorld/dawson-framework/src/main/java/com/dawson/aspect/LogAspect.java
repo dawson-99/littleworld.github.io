@@ -16,7 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 这个类是用来打印日志的，用的aop编程。作用就是调用
- * 一个接口，就打印这个接口的信息
+ * 一个接口，就打印这个接口的信息.
+ * 这类是对上面一个注解的实现
  */
 
 

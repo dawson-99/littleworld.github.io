@@ -11,6 +11,8 @@ import com.dawson.enums.AppHttpCodeEnum;
 import com.dawson.service.CategoryService;
 import com.dawson.utils.BeanCopyUtils;
 import com.dawson.utils.WebUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +23,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/content/category")
+@Api(tags = "文章分类")
 public class CategoryController {
 
     @Autowired
     CategoryService categoryService;
 
+    @ApiOperation(value = "获取所有的分类")
     @GetMapping("/listAllCategory")
     public ResponseResult listAllCategory(){
         return categoryService.listAllCategory();
@@ -35,6 +39,7 @@ public class CategoryController {
     //用来生成分类数据的excle文件
     @PreAuthorize("@ps.hasPermission('content:category:export')")//授权检查
     @GetMapping("/export")
+    @ApiOperation(value = "导出分类的excel文件")
     public void export(HttpServletResponse response){
 
         try {
@@ -59,6 +64,7 @@ public class CategoryController {
 
     //分页查询，相似查询
     @GetMapping("/list")
+    @ApiOperation(value = "分类查询")
     public ResponseResult pageList(Long pageNum, Long pageSize, String name, String status){
         return categoryService.pageListLike(pageNum, pageSize, name, status);
     }
@@ -67,6 +73,7 @@ public class CategoryController {
      * 增加分类
      */
     @PostMapping
+    @ApiOperation(value = "添加分类")
     public ResponseResult addCategory(@RequestBody Category category){
         categoryService.save(category);
         return ResponseResult.okResult();
@@ -76,6 +83,7 @@ public class CategoryController {
      * 查询分类
      */
     @GetMapping("/{id}")
+    @ApiOperation(value = "获取分类信息")
     public ResponseResult getCategory(@PathVariable("id") Long id){
         Category category = categoryService.getById(id);
         return ResponseResult.okResult(category);
@@ -85,6 +93,7 @@ public class CategoryController {
      * 更新分类
      */
     @PutMapping
+    @ApiOperation(value = "修改分类")
     public ResponseResult alterCategory(@RequestBody Category category){
         categoryService.updateById(category);
         return ResponseResult.okResult();
@@ -94,6 +103,7 @@ public class CategoryController {
      * 删除分类
      */
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "删除分类")
     public ResponseResult deleteCategory(@PathVariable("id") Long id){
         categoryService.removeById(id);
         return ResponseResult.okResult();
