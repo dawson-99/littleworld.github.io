@@ -1,33 +1,35 @@
 package com.dawson.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.BeanUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dawson.constant.SystemConstants;
+import com.dawson.domain.DTO.AddArticleDto;
 import com.dawson.domain.ResponseResult;
 import com.dawson.domain.entity.Article;
+import com.dawson.domain.entity.ArticleTag;
 import com.dawson.domain.entity.Category;
-import com.dawson.domain.vo.ArticleListVo;
-import com.dawson.domain.vo.ArticleVo;
-import com.dawson.domain.vo.HotArticleVo;
-import com.dawson.domain.vo.PageVo;
+import com.dawson.domain.vo.*;
 import com.dawson.mapper.ArticleMapper;
+import com.dawson.mapper.ArticleTagMapper;
 import com.dawson.mapper.CategoryMapper;
 import com.dawson.service.ArticleService;
+import com.dawson.service.ArticleTagService;
 import com.dawson.service.CategoryService;
+import com.dawson.service.TagService;
 import com.dawson.utils.BeanCopyUtils;
 import com.dawson.utils.RedisCache;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -41,6 +43,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     RedisCache redisCache;
 
+    @Autowired
+    ArticleTagService articleTagService;
+
+    @Autowired
+    TagService tagService;
+
+    @Autowired
+    ArticleTagMapper articleTagMapper;
 
 
     /**
@@ -159,12 +169,108 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return ResponseResult.okResult(articleVo);
     }
 
+
+
     public ResponseResult updateViewCount(Long id) {
         //更新redis中对应 id的浏览量
         redisCache.incrementViewCount(id.toString());
         return ResponseResult.okResult();
     }
 
+    @Override
+    @Transactional
+    public ResponseResult add(AddArticleDto articleDto) {
+
+       Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
+       save(article);
+
+       List<ArticleTag> articleTags = articleDto.getTags()
+                       .stream().map( f -> {
+                           return new ArticleTag(article.getId(), f);
+               }).collect(Collectors.toList());
+
+       articleTagService.saveBatch(articleTags);
+       return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult selectArticle(Long pageNum, Long pageSize, String title, String summary) {
+
+
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.eq(Article::getStatus, SystemConstants.STATUS_NORMAL)
+                .like(StringUtils.hasText(title), Article::getTitle, title)
+                .like(StringUtils.hasText(summary), Article::getSummary, summary);
+
+        Page<Article> page = new Page<>();
+        page.setCurrent(pageNum);
+        page.setSize(pageSize);
+        page(page, queryWrapper);
+
+        List<ArticleListVo> articleListVos = BeanCopyUtils.copyListBean(page.getRecords(), ArticleListVo.class);
+
+        return ResponseResult.okResult(new PageVo(articleListVos, page.getTotal()));
+    }
+
+    //主要是用来作为修改用的
+    @Override
+    public ResponseResult getArticleById_To_Alter(Long id) {
+
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.eq(Article::getId, id);
+        Article article = getOne(queryWrapper);
+
+        ArticleAlterVo articleAlterVo = BeanCopyUtils.copyBean(article, ArticleAlterVo.class);
+
+        LambdaQueryWrapper<ArticleTag> tagQuery = new LambdaQueryWrapper();
+        tagQuery.eq(ArticleTag::getArticleId, id);
+        List<ArticleTag> list = articleTagService.list(tagQuery);
+        List<String> tags = list.stream().map( f -> {
+            return String.valueOf(f.getTagId());
+        }).collect(Collectors.toList());
+
+        articleAlterVo.setTags(tags);
+
+
+        return ResponseResult.okResult(articleAlterVo);
+    }
+
+    @Override
+    @Transactional//变成事务，因为涉及到了两个数据库的操作
+    public ResponseResult updateArticle(ArticleAlterVo articleAlterVo) {
+
+        Article article = BeanCopyUtils.copyBean(articleAlterVo, Article.class);
+        updateById(article);
+
+        List<String> tags = articleAlterVo.getTags();
+
+        //先移除之前的标签
+        Map<String, Object> map = new HashMap<>();
+        map.put("article_id", articleAlterVo.getId());
+        articleTagMapper.deleteByMap(map);
+        //再添加新的标签
+        List<ArticleTag> articleTags = articleAlterVo.getTags().stream()
+                .map( f -> {
+                    return new ArticleTag(articleAlterVo.getId(), Long.parseLong(f));
+                }).collect(Collectors.toList());
+
+        articleTagService.saveBatch(articleTags);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult deleteArticle(Long id) {
+
+        //两种方式都行
+//        LambdaUpdateWrapper<Article> updateWrapper = new LambdaUpdateWrapper();
+//        updateWrapper.eq(Article::getId, id)
+//                .set(Article::getDelFlag, SystemConstants.ATICLE_FLAG_DELETE);
+//        update(updateWrapper);
+
+        //事实证明，它也是逻辑删除，可能是yml中配置的原因
+        removeById(id);
+        return ResponseResult.okResult();
+    }
 
 
 }

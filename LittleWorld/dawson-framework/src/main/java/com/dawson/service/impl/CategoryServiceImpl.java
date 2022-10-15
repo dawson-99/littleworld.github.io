@@ -1,18 +1,22 @@
 package com.dawson.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dawson.constant.SystemConstants;
 import com.dawson.domain.ResponseResult;
 import com.dawson.domain.entity.Article;
 import com.dawson.domain.entity.Category;
 import com.dawson.domain.vo.CategoryListVo;
+import com.dawson.domain.vo.CategoryVo;
+import com.dawson.domain.vo.PageVo;
 import com.dawson.mapper.CategoryMapper;
 import com.dawson.service.ArticleService;
 import com.dawson.service.CategoryService;
 import com.dawson.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -57,6 +61,52 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         //封装VO
         List<CategoryListVo> categoryListVoList = BeanCopyUtils.copyListBean(categories, CategoryListVo.class);
         return ResponseResult.okResult(categoryListVoList);
+    }
+
+    @Override
+    public ResponseResult listAllCategory() {
+
+        LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Category::getStatus, SystemConstants.STATUS_NORMAL);
+        List<Category> categories = list(queryWrapper);
+        List<CategoryVo> categoryVos = BeanCopyUtils.copyListBean(categories, CategoryVo.class);
+        return ResponseResult.okResult(categoryVos);
+    }
+
+    @Override
+    public ResponseResult pageList(Long pageNum, Long pageSize) {
+
+        LambdaQueryWrapper<Category> queryWrapper =new LambdaQueryWrapper();
+        queryWrapper.eq(Category::getStatus, SystemConstants.STATUS_NORMAL);
+
+        Page<Category> page = new Page<>();
+        page.setSize(pageSize);
+        page.setCurrent(pageNum);
+
+        page(page, queryWrapper);
+        List<CategoryVo> categoryVos = BeanCopyUtils.copyListBean(page.getRecords(),CategoryVo.class);
+
+        PageVo pageVo = new PageVo(categoryVos, page.getTotal());
+        return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public ResponseResult pageListLike(Long pageNum, Long pageSize, String name, String status) {
+
+        LambdaQueryWrapper<Category> queryWrapper =new LambdaQueryWrapper();
+        queryWrapper.eq(StringUtils.hasText(status),Category::getStatus, status)
+                .like(StringUtils.hasText(name),Category::getName, name);
+
+        Page<Category> page = new Page<>();
+        page.setSize(pageSize);
+        page.setCurrent(pageNum);
+
+        page(page, queryWrapper);
+        List<CategoryVo> categoryVos = BeanCopyUtils.copyListBean(page.getRecords(),CategoryVo.class);
+
+        PageVo pageVo = new PageVo(categoryVos, page.getTotal());
+        return ResponseResult.okResult(pageVo);
+
     }
 }
 

@@ -1,8 +1,10 @@
 package com.dawson.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.dawson.constant.SystemConstants;
 import com.dawson.domain.entity.LoginUser;
 import com.dawson.domain.entity.User;
+import com.dawson.mapper.MenuMapper;
 import com.dawson.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -39,6 +42,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    MenuMapper menuMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -49,13 +55,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userMapper.selectOne(queryWrapper);
 
         if(Objects.isNull(user)){
-            //这里先抛出来一个runtime的异常类（主要是其他类我写不来哈哈哈哈哈）。在SpringS
-            // ecurity的认证过程中，所有的异常都会被检测到的
+            /**
+             *  这里先抛出来一个runtime的异常类（主要是其他类我写不来哈哈哈哈哈）。在
+             *  SpringSecurity的认证过程中，所有的异常都会被检测到的
+             */
+
             throw new RuntimeException("用户不存在");
         }
-        // TODO 权限信息
 
         //这里的user必须封装成为loginUser才可以，因为返回的类型必须是UserDetails
-        return new LoginUser(user);
+        if(user.getType().equals(SystemConstants.ADMIN)){
+            //查询权限
+            List<String> list = menuMapper.selectByPermsUserId(user.getId());
+            return new LoginUser(user, list);
+        }
+        return new LoginUser(user, null);
     }
 }

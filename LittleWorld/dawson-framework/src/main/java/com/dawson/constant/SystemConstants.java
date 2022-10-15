@@ -31,10 +31,13 @@ public class SystemConstants
     public static final String BUTTON = "F";
     /** 正常状态 */
     public static final String NORMAL = "0";
-    public static final String ADMAIN = "1";
+    public static final String ADMIN = "1";
 
     //文章阅读次数的redis的Key
     public static final String ARTICLE_UPDATE = "article:viewCount";
     //将阅读量往数据库里面写的时间
     public static final String UPDATE_VIEW_CORN = "* 0/59 * * * ?";
+
+    //文章删除状态
+    public static final int ATICLE_FLAG_DELETE = 1;
 }

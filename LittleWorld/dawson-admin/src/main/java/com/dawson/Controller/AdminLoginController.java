@@ -2,16 +2,25 @@ package com.dawson.Controller;
 
 
 import com.dawson.domain.ResponseResult;
+import com.dawson.domain.entity.LoginUser;
+import com.dawson.domain.entity.Menu;
 import com.dawson.domain.entity.User;
+import com.dawson.domain.vo.AdminUserInfoVo;
+import com.dawson.domain.vo.RoutersVo;
+import com.dawson.domain.vo.UserInfoVo;
 import com.dawson.enums.AppHttpCodeEnum;
 import com.dawson.exception.SystemException;
-import com.dawson.service.AdminLoginService;
-import com.dawson.service.LoginService;
+import com.dawson.service.*;
+import com.dawson.utils.BeanCopyUtils;
+import com.dawson.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
@@ -21,6 +30,15 @@ public class AdminLoginController {
     @Autowired
     AdminLoginService adminLoginService;
 
+    @Autowired
+    RoleMenuService roleMenuService;
+
+    @Autowired
+    RoleService roleService;
+
+    @Autowired
+    MenuService menuService;
+
     @PostMapping("/user/login")
     public ResponseResult login(@RequestBody User user){
 
@@ -28,15 +46,42 @@ public class AdminLoginController {
             throw new SystemException(AppHttpCodeEnum.REQUIRE_USERNAME);
         }
 
-        adminLoginService.login(user);
-        return ResponseResult.okResult();
+        return adminLoginService.login(user);
     }
 
-//
-//    @PostMapping("/user/logout")
-//    public ResponseResult logout(){
-//        return adminLoginService.logout();
-//    }
+
+    @PostMapping("/user/logout")
+    public ResponseResult logout(){
+        return adminLoginService.logout();
+    }
+
+
+    @GetMapping("/getInfo")
+    public ResponseResult<AdminUserInfoVo> getInfo(){
+
+        //管理员信息
+         LoginUser admin = SecurityUtils.getLoginUser();
+         // 管理员权限
+         List<String> perms = menuService.selectPermsById(admin.getUser().getId());
+
+         //管理员角色信息
+         List<String> roleKeys = roleService.selectRoleKeyByUserId(admin.getUser().getId());
+
+         //获取用户信息
+         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(admin.getUser(), UserInfoVo.class);
+         //封装
+         AdminUserInfoVo adminUserInfoVo = new  AdminUserInfoVo(perms,roleKeys, userInfoVo);
+         return ResponseResult.okResult(adminUserInfoVo);
+    }
+
+    @GetMapping("/getRouters")
+    public ResponseResult<RoutersVo> getRouters(){
+        //查询菜单列表
+        Long userId = SecurityUtils.getUserId();
+        List<Menu> menus = menuService.selectRouterMenuTreeByUserId(userId);
+        return ResponseResult.okResult(new RoutersVo(menus));
+
+    }
 
 
 

@@ -14,4 +14,6 @@ import com.dawson.domain.entity.Link;
 public interface LinkService extends IService<Link> {
 
     ResponseResult getAllLink();
+
+    ResponseResult LinkList(Long pageNum, Long pageSize, String name, String status);
 }

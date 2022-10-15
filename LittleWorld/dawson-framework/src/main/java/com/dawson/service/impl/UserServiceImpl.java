@@ -2,28 +2,47 @@ package com.dawson.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dawson.domain.ResponseResult;
+import com.dawson.domain.entity.Role;
+import com.dawson.domain.entity.RoleMenu;
 import com.dawson.domain.entity.User;
+import com.dawson.domain.entity.UserRole;
+import com.dawson.domain.vo.PageVo;
 import com.dawson.domain.vo.UserInfoVo;
+import com.dawson.domain.vo.UserInfoWithRoleVo;
 import com.dawson.enums.AppHttpCodeEnum;
 import com.dawson.exception.SystemException;
 import com.dawson.mapper.UserMapper;
+import com.dawson.service.RoleService;
+import com.dawson.service.UserRoleService;
 import com.dawson.service.UserService;
 import com.dawson.utils.BeanCopyUtils;
 import com.dawson.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service("userService")
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    UserRoleService userRoleService;
+
+    @Autowired
+    RoleService roleService;
 
     @Override
     public ResponseResult getUserInfo() {
@@ -49,6 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Transactional
     public ResponseResult register(User user) {
 
         //检查是否有问题，如果有问题，下面抛出异常后，是不会执行的
@@ -56,6 +76,80 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
         this.save(user);
+
+        // TODO 赋予权限,已完成
+        if(user.getRoleIds() != null && user.getRoleIds().length > 0){
+            List<UserRole> userRoles = Arrays.stream(user.getRoleIds())
+                    .map( f -> {
+                        return  new UserRole(user.getId(), f);
+                    }).collect(Collectors.toList());
+            userRoleService.saveBatch(userRoles);
+        }
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult listUsers(Long pageNum, Long pageSize, String userName, String phonenumber, String status) {
+
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.eq(StringUtils.hasText(status),User::getStatus, status)
+                .like(StringUtils.hasText(userName),User::getUserName, userName)
+                .like(StringUtils.hasText(phonenumber),User::getPhonenumber, phonenumber);
+
+        Page<User> page = new Page<>();
+        page.setCurrent(pageNum);
+        page.setSize(pageSize);
+        page(page, queryWrapper);
+        PageVo pageVo = new PageVo(page.getRecords(), page.getTotal());
+        return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public ResponseResult deleteUser(Long id) {
+        removeById(id);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult getUserByUserId(Long userId) {
+
+        //查询用户信息
+        User user  = getById(userId);
+        //提取某些信息
+        UserInfoVo userInfoVo = BeanCopyUtils.copyBean(user, UserInfoVo.class);
+        //查询所有角色信息
+        List<Role> roles = roleService.list();
+        //查询用户拥有的角色代号
+        LambdaQueryWrapper<UserRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserRole::getUserId, userId);
+        List<UserRole> userRoles = userRoleService.list(queryWrapper);
+        //转换成string的
+        List<Long> userRolesToLong = userRoles.stream()
+                .map( f -> {
+                    return f.getRoleId();
+                }).collect(Collectors.toList());
+
+        UserInfoWithRoleVo userInfoWithRoleVo = new UserInfoWithRoleVo(userInfoVo, userRolesToLong, roles);
+        return ResponseResult.okResult(userInfoWithRoleVo);
+    }
+
+    @Override
+    @Transactional
+    public ResponseResult alterUser(User user) {
+
+        //先修改用户的信息
+        save(user);
+        //移除用户的role标记
+        Map<String, Object> map = new HashMap();
+        map.put("user_id", user.getId());
+        userRoleService.removeByMap(map);
+        //再加新的进去
+        List<UserRole> userRoles = Arrays.stream(user.getRoleIds())
+                .map( f -> {
+                    return new UserRole(user.getId(), f);
+                }).collect(Collectors.toList());
+        //保存
+        userRoleService.saveBatch(userRoles);
         return ResponseResult.okResult();
     }
 
@@ -81,8 +175,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new SystemException(AppHttpCodeEnum.USERNAME_EXIST);
         }
     }
-
-
 }
 
 

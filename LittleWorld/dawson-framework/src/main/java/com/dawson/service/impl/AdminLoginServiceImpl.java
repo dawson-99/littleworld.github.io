@@ -3,17 +3,16 @@ package com.dawson.service.impl;
 import com.dawson.domain.ResponseResult;
 import com.dawson.domain.entity.LoginUser;
 import com.dawson.domain.entity.User;
-import com.dawson.domain.vo.BlogUserLoginVo;
-import com.dawson.domain.vo.UserInfoVo;
+
 import com.dawson.service.AdminLoginService;
-import com.dawson.utils.BeanCopyUtils;
 import com.dawson.utils.JwtUtil;
 import com.dawson.utils.RedisCache;
+import com.dawson.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -64,10 +63,10 @@ public class AdminLoginServiceImpl implements AdminLoginService {
     public ResponseResult logout() {
 
         //因为之前在过滤的时候就
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
 
-        Long userId = loginUser.getUser().getId();
+        Long userId = SecurityUtils.getUserId();
 
         redisCache.deleteObject("adminlogin:" + userId);
 

@@ -14,4 +14,12 @@ import com.dawson.domain.entity.Category;
 public interface CategoryService extends IService<Category> {
 
     ResponseResult getCategoryList();
+
+    ResponseResult listAllCategory();
+
+    //这接口作废了，因为下面那个更牛逼
+    ResponseResult pageList(Long pageNum, Long pageSize);
+
+    ResponseResult pageListLike(Long pageNum, Long pageSize, String name, String status);
+
 }

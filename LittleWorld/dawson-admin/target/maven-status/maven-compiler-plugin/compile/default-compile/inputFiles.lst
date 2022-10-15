@@ -1,2 +1,11 @@
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-admin/src/main/java/com/dawson/Controller/ArticleController.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-admin/src/main/java/com/dawson/Controller/UserController.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-admin/src/main/java/com/dawson/DawsonAdminApplication.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-admin/src/main/java/com/dawson/Controller/UploadController.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-admin/src/main/java/com/dawson/config/SecurityConfig.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-admin/src/main/java/com/dawson/Controller/AdminLoginController.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-admin/src/main/java/com/dawson/Controller/CategoryController.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-admin/src/main/java/com/dawson/filter/JwtAuthenticatonFilter.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-admin/src/main/java/com/dawson/Controller/MenuController.java
 /Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-admin/src/main/java/com/dawson/Controller/TagController.java
+/Users/xuruihang/Desktop/littleworld.github.io/LittleWorld/dawson-admin/src/main/java/com/dawson/Controller/RoleController.java

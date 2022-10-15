@@ -1,1 +1,8 @@
+com/dawson/Controller/RoleController.class
+com/dawson/Controller/UploadController.class
+com/dawson/Controller/ArticleController.class
+com/dawson/Controller/UserController.class
 com/dawson/DawsonAdminApplication.class
+com/dawson/Controller/CategoryController.class
+com/dawson/Controller/LinkController.class
+com/dawson/Controller/MenuController.class

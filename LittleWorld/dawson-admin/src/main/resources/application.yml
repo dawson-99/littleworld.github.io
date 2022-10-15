@@ -34,6 +34,8 @@ mybatis-plus:
       logic-not-delete-value: 0
       #这个全局策略可以保证所有对表的增加操作，id自增
       id-type: auto
+  #mapper的映射地址
+  mapper-locations: classpath:mapper/*.xml
 
 #七牛云的云空间，就是用来上传文件的，主要用来上传用户头像
 oss:
