@@ -23,8 +23,6 @@ import java.util.stream.Collectors;
 @Component
 public class ViewCountUpdate {
 
-
-
     @Autowired
     private RedisCache redisCache;
 

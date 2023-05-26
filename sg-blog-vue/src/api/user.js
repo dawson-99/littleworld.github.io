@@ -42,8 +42,9 @@ export function getUserInfo(userId) {
 
 export function savaUserInfo(userinfo) {
     return request({
-        url: '/user/userInfo',
-        method: 'put',
+        url: '/user/updateUserInfoUpdate',
+        // url: '/user/userInfo',
+        method: 'post',
         data: userinfo
     })
 }

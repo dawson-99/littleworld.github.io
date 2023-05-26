@@ -31,7 +31,8 @@
                         </li>
                         <li>
                             <span class="leftTitle">电子邮件</span>
-                            <span>{{userInfoObj.email}}</span>
+                            <el-input v-model="userInfoObj.email" placeholder="邮件地址"></el-input>
+                            <!-- <span>{{userInfoObj.email}}</span> -->
                         </li>
                         <li>
                             <span class="leftTitle">性别</span>
@@ -40,8 +41,6 @@
                               <el-radio class="radio" v-model="userInfoObj.sex" label="1">女</el-radio>
                             </template>
                         </li>
-
-
                     </ul>
                     <div class=" saveInfobtn">
                         <a class="tcolors-bg"  href="javascript:void(0);" @click="isEdit=!isEdit">返 回</a>
@@ -62,13 +61,12 @@
                         <li class="avatarlist">
                             <span class="leftTitle">头像</span>
                             <div class="avatar-uploader">
-                                <img  :src="userInfoObj.avatar?userInfoObj.avatar:'static/img/tou.jpg'"   :onerror="$store.state.errorImg" class="avatar">
+                                <img  :src="userInfoObj.avatar?userInfoObj.avatar:'static/img/xuruihang.jpeg'"   :onerror="$store.state.errorImg" class="avatar">
                             </div>
                         </li>
                         <li class="username">
                             <span class="leftTitle">昵称</span>
                             <span>{{userInfoObj.nickName?userInfoObj.nickName:"无"}}</span>
-
                         </li>
                         <li>
                             <span class="leftTitle">电子邮件</span>
@@ -98,8 +96,16 @@ import store from '../store'
             return {
                 uploadURL:'',
                 isEdit: false,
-                userInfo:{},//本地存储的用户信
-                userInfoObj:'',//用户的信息
+                userInfo:{},//本地存储的用户信xi
+                // userInfoObj:'',//用户的信息
+                userInfoObj:{
+                    avatar:'',
+                    nickName:'',
+                    email:'',
+                    sex:'',
+                    head_start: 1
+                },
+                // userInfoObj2:''
             }
         },
         methods: { //事件处理器
@@ -133,7 +139,6 @@ import store from '../store'
                      return;
                 }
 
-
                 savaUserInfo(that.userInfoObj).then((response)=>{//保存信息接口，返回展示页
                     that.$message.success( '保存成功！');
                     that.isEdit = false;
@@ -154,7 +159,6 @@ import store from '../store'
                 }else{
                     that.haslogin = false;
                 }
-
             }
         },
         components: { //定义组件
@@ -165,8 +169,11 @@ import store from '../store'
            '$route':'routeChange'
          },
         created() { //生命周期函数
-            this.routeChange();
+            // this.routeChange();
             this.uploadURL = store.state.baseURL+'upload'
+        },
+        mounted(){
+            this.routeChange();
         }
     }
 </script>

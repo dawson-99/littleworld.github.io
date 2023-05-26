@@ -13,12 +13,12 @@
                         {{item.title}}
                     </a>
                 </h1>
-                <h2>
+                <!-- <h2>
                     <i class="fa fa-fw fa-user"></i>发表于
-                    <i class="fa fa-fw fa-clock-o"></i><span v-html="showInitDate(item.createTime,'all')">{{showInitDate(item.createTime,'all')}}</span> •
+                    <i class="fa fa-fw fa-clock-o"></i><span>{{showInitDate(item.createTime,'all')}}</span> •
                     <i class="fa fa-fw fa-eye"></i>{{item.viewCount}} 次围观 •
 
-                </h2>
+                </h2> -->
                 <div class="ui label">
                     <a :href="'#/Share?classId='+item.class_id">{{item.categoryName}}</a>
                 </div>
@@ -81,7 +81,6 @@ import {articleList} from '../api/article'
             showSearchShowList:function(initData){//展示数据
                 if(initData){
                     this.articleList = []
-
                 }
                 this.getList()
             },
@@ -101,11 +100,15 @@ import {articleList} from '../api/article'
            // 如果路由有变化，会再次执行该方法
            '$route':'routeChange',
            '$store.state.keywords':'routeChange'
-         },
+        },
         created() { //生命周期函数
             // console.log(this.$route);
             var that = this;
             that.routeChange();
+            // this.showSearchShowList()
+        },
+        mounted() {
+            // this.showSearchShowList()
         }
     }
 </script>

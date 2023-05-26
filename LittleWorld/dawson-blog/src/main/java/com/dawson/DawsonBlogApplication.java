@@ -10,7 +10,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 @SpringBootApplication//启动spring必须要的注解
-@MapperScan("com.dawson.mapper")//必须要扫描mapper，没搞懂目前
+@MapperScan("com.dawson.mapper")//必须要扫描mapper，这样子mybatis才能配置好
 @EnableScheduling//开启定时任务的注解
 public class DawsonBlogApplication {
 

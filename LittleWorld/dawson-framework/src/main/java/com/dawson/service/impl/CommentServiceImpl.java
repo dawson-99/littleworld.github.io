@@ -92,6 +92,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         //再给子评论一个个赋上名字
         commentVoList.forEach(f -> {
             User user = userService.getById(f.getCreateBy());
+            System.out.println(user.getUserName());
             f.setUsername(user.getUserName());
             if(f.getToCommentId() != -1){
                 f.setToCommentUserName(userService.getById(f.getToCommentUserId()).getNickName());

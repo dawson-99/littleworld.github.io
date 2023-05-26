@@ -3,7 +3,7 @@
 // 查询文章列表
 export function articleList(query) {
     return request({
-        url: '/article/articleList',
+        url: 'article/articleList',
         method: 'get',
         headers: {
           isToken: false
