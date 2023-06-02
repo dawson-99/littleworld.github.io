@@ -18,7 +18,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/userInfo")
+    @GetMapping("/userInfo")
     @ApiOperation(value = "获取用户信息")
 //    @SystemLog(businessName = "获取用户信息")
     public ResponseResult getUserInfo(){

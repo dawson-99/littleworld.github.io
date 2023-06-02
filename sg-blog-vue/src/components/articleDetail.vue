@@ -43,6 +43,7 @@
         return initDate(date, full);
       },
       getArticleDetail: function () {
+        console.log("获取文章详情")
         getArticle(this.aid).then((response) => {
           this.detailObj = response
           const markdownIt = mavonEditor.getMarkdownIt()
@@ -55,12 +56,14 @@
         that.aid = that.$route.query.aid == undefined ? 1 : parseInt(that.$route.query.aid);//获取传参的aid
         //判断用户是否存在
         if (localStorage.getItem('userInfo')) {
+          console.log(localStorage)
           that.haslogin = true;
           that.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+          console.log(that.userInfo);
           that.userId = that.userInfo.userId;
-          // console.log(that.userInfo);
         } else {
           that.haslogin = false;
+          console.log(localStorage)
         }
         //获取详情接口
         this.getArticleDetail()

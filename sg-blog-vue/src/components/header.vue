@@ -148,7 +148,7 @@ export default {
 			var that = this;
 			that.pMenu = true
 			this.activeIndex = this.$route.path == '/' ? '/Home' : this.$route.path;
-			if (localStorage.getItem('userInfo')) { //存储用户信息
+			if (localStorage.getItem('userInfo')) { //获取用户信息
 				that.haslogin = true;
 				that.userInfo = JSON.parse(localStorage.getItem('userInfo'));
 				// console.log(that.userInfo);

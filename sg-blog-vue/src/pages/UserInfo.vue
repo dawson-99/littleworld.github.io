@@ -96,7 +96,7 @@ import store from '../store'
             return {
                 uploadURL:'',
                 isEdit: false,
-                userInfo:{},//本地存储的用户信xi
+                userInfo:{},//本地存储的用户信息
                 // userInfoObj:'',//用户的信息
                 userInfoObj:{
                     avatar:'',
