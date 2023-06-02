@@ -1,6 +1,0 @@
-com/dawson/controller/CategoryController.class
-com/dawson/controller/LinkController.class
-com/dawson/runner/ArticleViewCountRunner.class
-com/dawson/controller/UserController.class
-com/dawson/job/ViewCountUpdate.class
-com/dawson/controller/UploadController.class
