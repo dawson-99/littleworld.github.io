@@ -216,6 +216,7 @@
             },
             //选择表情包
             choseEmoji: function (inner) {
+                console.log(inner);
                 this.textarea += '[' + inner + ']';
             },
             analyzeEmoji: function (cont) {//编译表情替换成图片展示出来

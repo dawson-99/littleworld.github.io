@@ -9,10 +9,13 @@ Vue.use(Vuex)
  */
 export const state = {
   loading: false,
-  themeObj: 0,//主题
+  themeObj: {
+    // right_img: 'static/img/long.png',
+    center_smailimg: 'static/img/libcdut.jpeg',
+  },//主题
   keywords: '',//关键词
   errorImg: 'this.onerror=null;this.src="' + require('../../static/img/tou.jpg') + '"',
-  baseURL: 'http://localhost:7777/'
+  baseURL: 'http://localhost:7777/',
 }
 
 export default new Vuex.Store({
