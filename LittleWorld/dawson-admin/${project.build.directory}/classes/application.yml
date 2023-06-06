@@ -1,0 +1,45 @@
+server:
+  port: 8989
+spring:
+  #数据源信息，这里是阿里云的数据库，大家不用改了
+  datasource:
+    #后缀是用来确定时区编码方式的，不用管。下面的账号和密码，都不要改，直接就可以运行的
+    url: jdbc:mysql://xuruihang-littleworld.mysql.rds.aliyuncs.com:3306/wodekelenedb?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: wodekelene
+    password: Xrh_520520
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 5MB
+  #redis的配置。大家不用更改，我买了个云端的redis数据库
+  redis:
+    username: wodekelene
+    password: Xrh_520520
+    port: 6379
+    host: xuruihang-littleworld.redis.rds.aliyuncs.com
+    database: 0
+  #下面是mybatis的配置
+
+mybatis-plus:
+  configuration:
+    # 日志，用于输出mysql语句的
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 全局配置
+  global-config:
+    db-config:
+      #逻辑删除，就是没有从数据库中真实的删除，只是改变了delflag这个字段值，把它变为了0或者1;这样子后面做的时候，mybatis可以识别
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      #这个全局策略可以保证所有对表的增加操作，id自增
+      id-type: auto
+  #mapper的映射地址
+  mapper-locations: classpath:mapper/*.xml
+
+#七牛云的云空间，就是用来上传文件的，主要用来上传用户头像
+oss:
+  accessKey: GtUtkPhsdq8iH0MShvqIwLQ9jhBZw208yotP9u5n
+  secretKey: zhuWuBtJUnhPLdTyjDw2KF8fU9io0e2nLf_6yB3C
+  bucket: dawson-qiniuyun
+  prefix: rjfq5llmv.hd-bkt.clouddn.com/
