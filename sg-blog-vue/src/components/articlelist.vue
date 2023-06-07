@@ -89,7 +89,7 @@
             },
             routeChange: function () {
                 var that = this;
-                this.queryParams.categoryId = (that.$route.query.classId == undefined ? 0 : parseInt(that.$route.query.classId));//获取传参的classId
+                this.queryParams.categoryId = (that.$route.query.classId == undefined ? 1 : parseInt(that.$route.query.classId));//获取传参的classId
                 this.showSearchShowList(true);
             }
         },
